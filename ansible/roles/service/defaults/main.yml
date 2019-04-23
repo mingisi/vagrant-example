@@ -1,0 +1,7 @@
+container_name: ""
+image_name: ""
+container_ports: []
+poll_port: 
+poll_timeout: 
+# env_file: /local/dir/some/file.env
+

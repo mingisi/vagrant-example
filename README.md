@@ -13,4 +13,8 @@
 * Vegrant file build two webserver and one nginx server ( which works as a load balancer )
   * which is set on a 10.100.195.200"
 * webserver runs simple docker application (https://hub.docker.com/r/vad1mo/hello-world-rest)
-  
+
+Setup the Mongodb with Data
+
+    POST http://10.100.194.201/api/cars
+    {}
