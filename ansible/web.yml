@@ -1,0 +1,9 @@
+---
+- hosts: all
+  gather_facts: yes
+  become: true
+  roles:
+    - sudoers
+    - docker
+    - hello_service
+...

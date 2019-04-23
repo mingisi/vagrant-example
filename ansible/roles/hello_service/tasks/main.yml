@@ -1,0 +1,7 @@
+- name: Running the container
+  docker_container:
+    name: hello_world
+    image: vad1mo/hello-world-rest
+    ports:
+      - "80:5050"
+    state: started

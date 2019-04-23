@@ -1,0 +1,46 @@
+{% block http_upstream %}
+{% for upstream in nginx_upstreams %}
+    upstream {{ upstream.name }} {
+{% if upstream.strategy is defined %}
+        {{ upstream.strategy }};
+{% endif %}
+{% for server in upstream.servers %}
+        server {{ server }};
+{% endfor %}
+{% if upstream.keepalive is defined %}
+        keepalive {{ upstream.keepalive }};
+{% endif %}
+    }
+{% endfor %}
+{% endblock %}
+
+
+server {
+    listen       {{ item.listen | default('80') }};
+    server_name  {{ item.server_name | default('localhost') }};
+    location / {
+        {% if nginx_upstreams is defined %}
+            proxy_pass  http://webservice;
+        {% else %}
+            root {{ item.root | default('/usr/share/nginx/html') }};
+            index {{ item.index | default('index.html index.htm') }};
+        {% endif %}
+        
+    }
+    error_page {{ item.error_page  | default('500 502 503 504  /50x.html')}};
+
+
+
+    location = /50x.html {
+        root {{ item.root | default('/usr/share/nginx/html') }};
+    }
+
+    ssi on;
+
+    {% if item.access_log is defined %}
+        access_log {{ item.access_log }};
+    {% endif %}
+    {% if item.error_log is defined %}
+        error_log {{ item.error_log }} error;
+    {% endif %}
+}

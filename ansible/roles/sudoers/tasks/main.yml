@@ -1,0 +1,27 @@
+---
+- name: "Ensure sudo is installed"
+  apt:
+    name: "sudo"
+    state: "present"
+  register: "sudo_installed"
+
+#  create sudoers file for  vagrant user
+- name: vagrant user to be able to sudo without password
+  lineinfile:
+    path: /etc/sudoers.d/vagrant
+    line: 'vagrant ALL=(ALL) NOPASSWD: ALL'
+    state: present
+    mode: 0440
+    create: yes
+    validate: 'visudo -cf %s'
+  when: sudo_installed.rc == 0
+
+#  create sudoers file for  vagrant user
+- name: admin user group should not be able to sudo without a password
+  lineinfile:
+    path: /etc/sudoers
+    regexp: '^%admin'
+    line: '%admin  ALL=(ALL) PASSWD: ALL'
+    validate: 'visudo -cf %s'
+  when: sudo_installed.rc == 0
+...
