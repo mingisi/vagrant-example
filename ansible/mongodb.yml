@@ -9,6 +9,9 @@
         - "27017:27017"
     poll_port: 27017
     poll_timeout: 60
+    # environment_var: 
+    #   - "MONGO_INITDB_ROOT_USERNAME=root"
+    #   - "MONGO_INITDB_ROOT_PASSWORD=example"
   roles:
     - sudoers
     - docker

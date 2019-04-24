@@ -3,38 +3,21 @@
     name: "{{ container_name }}"
     state: absent
   ignore_errors: yes
+  when: docker_remove_service
 
 - name: Run {{ container_name }} container
   docker_container:
     name: "{{ container_name }}"
     restart_policy: always
-    # network_mode: host
     hostname: "{{ ansible_hostname }}"
     ports: "{{ container_ports }}"
-    # log_driver: json-file
-    # log_options:
-    #   max-size: 20m
-    #   max-file: 1
     memory: 512m
     image: "{{ image_name }}"
     state: started
-    # volumes:
-    #   - /var/run/docker.sock:/var/run/docker.sock
+    env: "{{ environment_var }}"
   register: container_output
 
-# - name: Running the container
-#   docker_container:
-#     name: hello_world
-#     image: vad1mo/hello-world-rest
-#     ports:
-#       - "80:5050"
-#     # state: started
-#   
-
-# - debug: var=hello_world_output
-#   # when: playbook_debu
-
-- name: Save status
+- name: Check if container {{ container_name }} running 
   set_fact:
     container_is_running: "{{ container_output.ansible_facts.docker_container.State.Running }}"
 
@@ -42,11 +25,11 @@
     msg: "The service is not running"
   when: not container_is_running
 
-- name: Get container IP
+- name: Get container {{ container_name }} IP
   set_fact:
     container_ip: "{{ container_output.ansible_facts.docker_container.NetworkSettings.IPAddress }}"
 
-- name: Check container
+- name: Wait for {{ poll_timeout }}s for container {{ container_name }}
   wait_for:
     host: "{{ container_ip }}"
     port: "{{ poll_port }}"

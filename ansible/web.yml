@@ -9,6 +9,8 @@
     - "80:3000"
     poll_port: 3000
     poll_timeout: 60
+    environment_var: 
+      MONGODB_URL: "mongodb://10.100.196.205"
   roles:
     - sudoers
     - docker

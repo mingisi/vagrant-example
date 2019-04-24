@@ -3,5 +3,7 @@ image_name: ""
 container_ports: []
 poll_port: 
 poll_timeout: 
+environment_var:
+docker_remove_service: false
 # env_file: /local/dir/some/file.env
 

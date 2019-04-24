@@ -1,24 +1,31 @@
-// Require the fastify framework and instantiate it
+'use strict'
+
+const fp = require('fastify-plugin')
+const mongoose = require('mongoose')
 const fastify = require('fastify')({
   logger: true
 })
-
-// Require external modules
-const mongoose = require('mongoose')
-
-// Import Routes
 const routes = require('./routes')
-
-// Import Swagger Options
 const swagger = require('./config/swagger')
+// const fp = require('fastify-plugin')
 
+const schema = {
+  type: 'object',
+  required: [ 'MONGODB_URL'],
+  properties: {
+    MONGODB_URL: { type: 'string' },
+  },
+  additionalProperties: false
+}
 // Register Swagger
-fastify.register(require('fastify-swagger'), swagger.options)
+fastify
+.register(require('fastify-swagger'), swagger.options)
+.register(require('fastify-env'), { schema } )
+.register(fp(connectToDatabases))
 
-// Connect to DB
-mongoose.connect('mongodb://10.100.196.205/mycargarage')
-  .then(() => console.log('MongoDB connected...'))
-  .catch(err => console.log(err))
+async function connectToDatabases(fastify) {
+  mongoose.connect(fastify.config.MONGODB_URL + '/mycargarage', { useNewUrlParser: true })
+}
 
 // Loop over each route
 routes.forEach((route, index) => {
@@ -36,4 +43,5 @@ const start = async () => {
     process.exit(1)
   }
 }
+
 start()

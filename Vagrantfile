@@ -3,9 +3,9 @@
 
 Vagrant.configure('2') do |config|
 
-  config.vm.define 'mongo-express' do |db|
+  config.vm.define 'mongodb' do |db|
     db.vm.box = 'puppetlabs/ubuntu-16.04-64-nocm'
-    db.vm.hostname = 'mongo-express'
+    db.vm.hostname = 'mongodb'
     db.vm.network 'private_network', ip: '10.100.196.205'
     db.vm.network 'forwarded_port', guest: 8081, host: 8081
 
