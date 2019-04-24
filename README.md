@@ -12,6 +12,7 @@
     vagrant up
 
 ### Summary
+```
 
                           10.100.194.201
                           +--------+
@@ -25,7 +26,7 @@
                           +--------+
                           10.100.194.202
 
-
+```
 
 * Above digram displays simple architecture
   
