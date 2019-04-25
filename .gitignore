@@ -2,3 +2,5 @@
 *.retry
 app/fastify-api/src/node_modules
 .alvenv
+.tox
+.vagrant-ssh-config

@@ -6,23 +6,44 @@
   register: "sudo_installed"
 
 - debug: var=sudo_installed
-#  create sudoers file for  vagrant user
+
 - name: vagrant user to be able to sudo without password
   lineinfile:
-    path: /etc/sudoers.d/vagrant
-    line: 'vagrant ALL=(ALL) NOPASSWD: ALL'
-    state: present
-    mode: 0440
-    create: yes
+    path: /etc/sudoers
+    regexp: '^vagrant'
+    line: 'vagrant  ALL=(ALL) NOPASSWD: ALL'
     validate: 'visudo -cf %s'
   when: sudo_installed.failed == false
 
 #  create sudoers file for  vagrant user
-- name: admin user group should not be able to sudo without a password
+# - name: vagrant user to be able to sudo without password
+#   lineinfile:
+#     path: /etc/sudoers.d/vagrant
+#     line: 'vagrant ALL=(ALL) NOPASSWD: ALL'
+#     state: present
+#     mode: 0440
+#     create: yes
+#     validate: 'visudo -cf %s'
+#   when: sudo_installed.failed == false
+
+#  create sudoers file for  vagrant user
+
+- name: create a 'admin' group
+  group:
+    name: admin
+    state: present
+
+- name: Any user in the 'admin' group needs password
   lineinfile:
     path: /etc/sudoers
     regexp: '^%admin'
     line: '%admin  ALL=(ALL) PASSWD: ALL'
     validate: 'visudo -cf %s'
   when: sudo_installed.failed == false
+
+- name: Add user 'james' into 'admin' group
+  user:
+    name: james
+    shell: /bin/bash
+    groups: admin
 ...
