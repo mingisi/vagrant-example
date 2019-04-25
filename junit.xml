@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?><testsuite errors="0" failures="1" name="pytest" skipped="0" tests="2" time="0.151"><testcase classname="test_testinfra_examples" file="test_testinfra_examples.py" line="6" name="test_passwd_file[local]" time="0.058"></testcase><testcase classname="test_testinfra_examples" file="test_testinfra_examples.py" line="14" name="test_package_checks[local]" time="0.020"><failure message="NotImplementedError">host = &lt;testinfra.host.Host object at 0x110dd02e8&gt;
+
+    def test_package_checks(host):
+&gt;       nginx = host.package(&quot;nginx&quot;)
+
+testinfra/test_testinfra_examples.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.tox/py37/lib/python3.7/site-packages/testinfra/host.py:107: in __getattr__
+    obj = module_class.get_module(self)
+.tox/py37/lib/python3.7/site-packages/testinfra/modules/base.py:22: in get_module
+    klass = cls.get_module_class(_host)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cls = &lt;class &apos;testinfra.modules.package.Package&apos;&gt;, host = &lt;testinfra.host.Host object at 0x110dd02e8&gt;
+
+    @classmethod
+    def get_module_class(cls, host):
+        if host.system_info.type == &quot;freebsd&quot;:
+            return FreeBSDPackage
+        elif host.system_info.type in (&quot;openbsd&quot;, &quot;netbsd&quot;):
+            return OpenBSDPackage
+        elif host.exists(&quot;dpkg-query&quot;):
+            return DebianPackage
+        elif host.exists(&quot;rpm&quot;):
+            return RpmPackage
+        elif host.exists(&quot;apk&quot;):
+            return AlpinePackage
+        elif host.system_info.distribution == &quot;arch&quot;:
+            return ArchPackage
+        else:
+&gt;           raise NotImplementedError
+E           NotImplementedError
+
+.tox/py37/lib/python3.7/site-packages/testinfra/modules/package.py:81: NotImplementedError</failure></testcase></testsuite>

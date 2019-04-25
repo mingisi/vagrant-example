@@ -4,3 +4,5 @@ app/fastify-api/src/node_modules
 .alvenv
 .tox
 .vagrant-ssh-config
+__pycache__
+.vscode
