@@ -1,13 +1,13 @@
 ---
-- name: add ppa for nginx/{{ nginx_ppa_version }} 
-  apt_repository: 
+- name: add ppa for nginx/{{ nginx_ppa_version }}
+  apt_repository:
     repo: 'ppa:nginx/{{ nginx_ppa_version }}'
     state: present
     update_cache: true
   register: nginx_ppa_added
   when: nginx_ppa_use
 
-- name: remove nginx.
+- name: remove nginx
   apt:
     name: nginx
     state: absent
@@ -17,10 +17,9 @@
   apt: update_cache=yes cache_valid_time=86400
   changed_when: false
 
-- name: Ensure nginx is installed.
+- name: Ensure nginx is installed
   apt:
     name: "{{ nginx_package_name }}"
     state: present
     default_release: "{{ nginx_default_release }}"
-
 ...

@@ -17,11 +17,12 @@
     env: "{{ environment_var }}"
   register: container_output
 
-- name: Check if container {{ container_name }} running 
+- name: Check if container {{ container_name }} running
   set_fact:
     container_is_running: "{{ container_output.ansible_facts.docker_container.State.Running }}"
 
-- fail:
+- name: checking if the service {{ container_name }} is running
+  fail:
     msg: "The service is not running"
   when: not container_is_running
 
@@ -34,4 +35,3 @@
     host: "{{ container_ip }}"
     port: "{{ poll_port }}"
     timeout: "{{ poll_timeout }}"
-

@@ -42,7 +42,7 @@
   when: nginx_remove_default_vhost | default('present')
 
 - name: Copy the nginx default site configuration file
-  template: 
+  template:
     src: default.j2
     dest: "{{ nginx_vhost_path }}/vhost.conf"
     # owner: root

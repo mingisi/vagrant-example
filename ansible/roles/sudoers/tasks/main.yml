@@ -13,7 +13,7 @@
     regexp: '^vagrant'
     line: 'vagrant  ALL=(ALL) NOPASSWD: ALL'
     validate: 'visudo -cf %s'
-  when: sudo_installed.failed == false
+  when: not sudo_installed.failed
 
 #  create sudoers file for  vagrant user
 # - name: vagrant user to be able to sudo without password
@@ -39,7 +39,7 @@
     regexp: '^%admin'
     line: '%admin  ALL=(ALL) PASSWD: ALL'
     validate: 'visudo -cf %s'
-  when: sudo_installed.failed == false
+  when: not sudo_installed.failed
 
 - name: Add user 'james' into 'admin' group
   user:

@@ -14,7 +14,7 @@ def test_vagrant_user(host):
 def test_package_checks(host):
     nginx = host.package("nginx")
     assert nginx.is_installed
-    assert nginx.version.startswith("1.14")
+    assert nginx.version.startswith("1.10")
     
 
 def test_nginx_service(host):

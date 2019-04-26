@@ -3,12 +3,10 @@
     brew update
     brew cask install virtualbox
     brew cask install vagrant
-
     brew install python 
 
 
 ### start vagrant boxs
-
     vagrant up
 
 ### Summary
@@ -36,7 +34,7 @@
   * service - runns a docker container 
   * sudoers - add vagrent and admin group to sudoers 
    
-* Application is simple nodejs, rest api which works with mongodb, most of the application code was extracted from following blog (`https://medium.freecodecamp.org/how-to-build-blazing-fast-rest-apis-with-node-js-mongodb-fastify-and-swagger-114e062db0c9`). the app has been dockerised so that it can be easy deployed on both servers  `app-01` and `app-02`
+* Application is a simple nodejs with a rest api interface which works with mongodb, most of the application code was extracted from following blog (`https://medium.freecodecamp.org/how-to-build-blazing-fast-rest-apis-with-node-js-mongodb-fastify-and-swagger-114e062db0c9`). The app has been dockerized so that it can be easy deployed on both servers  `app-01` and `app-02`
 
 ### How it works
 
@@ -63,16 +61,33 @@
 
 *DATABASE*
 
-*  mongodb deploy has without any password and has no data folders mounted ( data is not persistent) . 
+*  mongodb deploy has without any password and has no data folders mounted ( data is not persistent). 
 
 ### Testing
 
-Install tool for testing  
+tox will provision the vagrant environment and run the test
 
-    virtualenv -p /usr/local/opt/python/bin/python3.7 .alvenv 
-    source ./.alvenv/bin/activate
-    pip install molecule 
-    pip install python-vagrant
+* Install tool for testing:
+```
+    brew install python
+    pip install tox (https://tox.readthedocs.io/en/latest/install.html)
+```
+* Running the infrastrue test
+```
+    tox
+```
 
-vagrant ssh-config > .vagrant/ssh-config
-testinfra --hosts=default --ssh-config=.vagrant/ssh-config tests.py
+* Running the ansible lint test
+```
+    tox -e ansible-lint
+```
+
+* Running the ansible syntax test
+```
+    tox -e ansible-syntax
+```
+
+* Running the api test ( testing if application is running )
+```
+    tox -e api-test
+```
