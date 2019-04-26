@@ -15,6 +15,7 @@
     validate: 'visudo -cf %s'
   when: not sudo_installed.failed
 
+#  TODO: replace the above block with this block 
 #  create sudoers file for  vagrant user
 # - name: vagrant user to be able to sudo without password
 #   lineinfile:
@@ -25,8 +26,6 @@
 #     create: yes
 #     validate: 'visudo -cf %s'
 #   when: sudo_installed.failed == false
-
-#  create sudoers file for  vagrant user
 
 - name: create a 'admin' group
   group:

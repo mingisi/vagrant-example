@@ -6,10 +6,12 @@ nginx_package_name: nginx
 nginx_default_release: ""
 
 nginx_remove_default_vhost: true
+
 nginx_vhosts: 
   - listen: "80"
 
 nginx_upstreams: []
+root_group:
 # - name: webservice
 #   strategy: "ip_hash" # "least_conn", etc.
 #   keepalive: 16 # optional

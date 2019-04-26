@@ -1,21 +1,17 @@
 ---
-# Variable setup.
-- name: Include OS-specific variables.
+- name: Include {{ ansible_os_family }} variables
   include_vars: "{{ ansible_os_family }}.yml"
 
-- name: Define nginx_user.
-  set_fact:
-    nginx_user: "{{ __nginx_user }}"
-  when: nginx_user is not defined
-
-# Setup/install tasks.
+# TODO: when the nginx.conf updated, 
+# - name: Define nginx_user.
+#   set_fact:
+#     nginx_user: "{{ __nginx_user }}"
+#   when: nginx_user is not defined
 
 - include_tasks: ubuntu-setup.yml
   when: ansible_distribution == 'Ubuntu'
 
-# Vhost configuration.
-# - import_tasks: vhost.yml
-
+# TODO: if need to customize the nginx.conf file 
 # - name: Copy the nginx configuration file
 #   template:
 #     src=nginx.conf.j2 dest=/etc/nginx/nginx.conf
@@ -24,35 +20,28 @@
 #    - restart nginx
 
 
-# Nginx setup.
-# - name: Copy nginx configuration in place.
-#   template:
-#     src: "{{ nginx_conf_template }}"
-#     dest: "{{ nginx_conf_file_path }}"
-#     owner: root
-#     group: "{{ root_group }}"
-#     mode: 0644
-#   notify:
-#     - reload nginx
-
-- name: Remove default nginx vhost config file (if configured).
+- name: Remove default vhost file
   file:
     path: "{{ nginx_default_vhost_path }}"
     state: absent
   when: nginx_remove_default_vhost | default('present')
 
-- name: Copy the nginx default site configuration file
+- name: Copy the new vhost file
   template:
     src: default.j2
     dest: "{{ nginx_vhost_path }}/vhost.conf"
-    # owner: root
-    # group: "{{ root_group }}"
-    # mode: 0644
+    owner: root
+    group: "{{ root_group }}"
+    mode: 0644
   with_items: "{{ nginx_vhosts }}"
   notify:
     - reload nginx
 
-- name: Ensure nginx is started and enabled to start at boot.
+# TODO better option would be symlink vhost file
+# - name: Create the link for site enabled specific configurations
+#   file: path=/etc/nginx/sites-enabled/default state=link src=/etc/nginx/sites-available/default
+
+- name: Ensure nginx service 
   service: name=nginx state=started enabled=yes
 
 # - name: Remove default nginx vhost config file (if configured).
@@ -61,15 +50,3 @@
 #     state: absent
 #   when: nginx_remove_default_vhost
 #   notify: restart nginx
-
-
-
-
-# - name: Create the link for site enabled specific configurations
-#   file: path=/etc/nginx/sites-enabled/default state=link src=/etc/nginx/sites-available/default
-
-# - name: Ensure nginx_vhost_path exists.
-#   file:
-#     path: "{{ nginx_vhost_path }}"
-#     state: directory
-#   notify: reload nginx
