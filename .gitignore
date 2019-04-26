@@ -1,5 +1,6 @@
 .vagrant
 *.retry
+*.pyc
 app/fastify-api/src/node_modules
 .alvenv
 .tox

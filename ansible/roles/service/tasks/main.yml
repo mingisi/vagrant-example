@@ -1,3 +1,4 @@
+---
 - name: Remove {{ container_name }} container
   docker_container:
     name: "{{ container_name }}"
@@ -35,3 +36,4 @@
     host: "{{ container_ip }}"
     port: "{{ poll_port }}"
     timeout: "{{ poll_timeout }}"
+...

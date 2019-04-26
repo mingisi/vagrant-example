@@ -77,14 +77,9 @@ tox will provision the vagrant environment and run the test
     tox
 ```
 
-* Running the ansible lint test
+* Running the linters
 ```
-    tox -e ansible-lint
-```
-
-* Running the ansible syntax test
-```
-    tox -e ansible-syntax
+    tox -e linters
 ```
 
 * Running the api test ( testing if application is running )

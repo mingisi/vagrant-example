@@ -1,3 +1,4 @@
+---
 - name: Remove the old version of docker
   package:
     name:
@@ -37,3 +38,4 @@
     repo: "{{ docker_apt_repository }}"
     state: present
     update_cache: true
+...
