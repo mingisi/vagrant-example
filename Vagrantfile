@@ -74,7 +74,7 @@ Vagrant.configure("2") do |config|
 
       # enable port fowarding 
       if box.key?(:forwarded_port)
-        machine.vm.network "forwarded_port", guest: box[:guest], host: box[:host]
+        machine.vm.network "forwarded_port", guest: box[:forwarded_port][:guest], host: box[:forwarded_port][:host]
       end
 
       # limiting cpu and momery
