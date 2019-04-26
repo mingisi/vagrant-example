@@ -34,7 +34,8 @@ boxes = {
         "poll_port"=> 3000,
         "poll_timeout"=> 60,
         "environment_var" => "'#{{'MONGODB_URL' => 'mongodb://10.100.196.205'}.to_json}'"
-    }
+    },
+    :test_url => "http://10.100.194.201/documentation/static/index.html"
   },
   "web-02" => {
     :box => "puppetlabs/ubuntu-16.04-64-nocm",
@@ -50,7 +51,8 @@ boxes = {
       "poll_port"=> 3000,
       "poll_timeout"=> 60,
       "environment_var" => "'#{{'MONGODB_URL' => 'mongodb://10.100.196.205'}.to_json}'"
-    }
+    },
+    :test_url => "http://10.100.194.202/documentation/static/index.html"
   },
   "nginx" => {
       :box => "puppetlabs/ubuntu-16.04-64-nocm",

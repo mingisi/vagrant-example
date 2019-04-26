@@ -23,3 +23,4 @@ virtualenv==16.5.0
 whichcraft==0.5.2
 wrapt==1.11.1
 yamllint==1.15.0
+assertpy>=0.14
